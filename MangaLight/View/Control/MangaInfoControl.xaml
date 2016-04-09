@@ -1,0 +1,65 @@
+﻿<UserControl
+    x:Class="MangaLight.View.Control.MangaInfoControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MangaLight.View.Control"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodel="using:MangaLight.ViewModel"
+    xmlns:converter="using:MangaLight.Converter"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    >
+    <UserControl.Resources>
+        <converter:BoolenToVisibilityConverter x:Key="boolenToVisibility"/>
+    </UserControl.Resources>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"           
+          Tapped="OnMoreInformation_Tapped">
+        <Border  BorderBrush="Black" BorderThickness="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <Grid>
+                    <Image Stretch="Fill" Name="CoverImage"  
+                          
+                       Grid.Row="0" Grid.Column="0"
+                       Margin="0">
+                        <Image.Source >
+                            <BitmapImage UriSource="{Binding CoverUri, Mode=OneWay}"                                          
+                                         />
+                        </Image.Source>
+                    </Image>
+                    <ProgressRing Name="progressRing" IsActive="{Binding IsLoadingCover}" Width="30" Height="30"/>
+                </Grid>
+
+                <StackPanel Orientation="Vertical" 
+                            Grid.Row="0" Grid.Column="1" Padding="5,0,0,0"
+                            >
+                    <TextBlock Text="{Binding MangaName, Mode=OneWay}" TextWrapping="Wrap" FontSize="14" FontWeight="Bold" Margin="0,10,0,0"  />
+                    <TextBlock TextWrapping="Wrap" FontSize="11" Style="{StaticResource BaseTextBlockStyle}"
+                               Visibility="{Binding IsHaveAuthorInfo,Converter={StaticResource boolenToVisibility}}">
+                        <Run Text="Author:" FontWeight="Bold"  />                      
+                        <Run Text="{Binding Author}" />
+                    </TextBlock>
+                    <TextBlock TextWrapping="Wrap" FontSize="11" Style="{StaticResource BaseTextBlockStyle}"
+                               Visibility="{Binding IsHaveGenreInfo, Converter={StaticResource boolenToVisibility}}">
+                        <Run Text="Genre:" FontWeight="Bold"/>
+                        <Run Text="{Binding Genre}" />
+                    </TextBlock>
+                    <TextBlock TextWrapping="Wrap" FontSize="11" Style="{StaticResource BaseTextBlockStyle}"
+                               Visibility="{Binding IsHaveStatusInfo,Converter={StaticResource boolenToVisibility}}">
+                        <Run Text="Status:" FontWeight="Bold" />
+                        <Run Text="{Binding Status}"/>
+                    </TextBlock>
+                    <TextBlock TextWrapping="Wrap" FontSize="11" Style="{StaticResource BaseTextBlockStyle}">
+                        <Run Text="Latest Chapter:" FontWeight="Bold" />
+                        <Run Text="{Binding LatestChapter}"/>
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

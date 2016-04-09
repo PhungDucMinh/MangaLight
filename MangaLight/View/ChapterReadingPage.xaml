@@ -1,0 +1,64 @@
+﻿<Page
+    x:Class="MangaLight.View.ChapterReadingPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MangaLight.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:control="using:MangaLight.View.Control"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <DataTemplate x:Key="ImageControl1">
+            <control:ImageControl ImageStretch="Uniform" Margin="0,2"></control:ImageControl>
+        </DataTemplate>
+        <DataTemplate x:Key="ImageControl2">
+            <ScrollViewer VerticalScrollMode="Enabled" Margin="0,2" >
+                <control:ImageControl ImageStretch="UniformToFill"></control:ImageControl>
+            </ScrollViewer>
+            
+        </DataTemplate>
+        <DataTemplate x:Key="ImageTemplate1">
+            <Grid>
+                <ProgressRing Height="50" Width="50" x:Name="progressRing" IsActive="{Binding IsLoadingImage}"/>
+                <Image x:Name="image" Stretch="Uniform" ImageOpened="ImageOpen" >
+                    <Image.Source>
+                        <BitmapImage UriSource="{Binding ImageUri}"/>
+                    </Image.Source>
+                </Image>
+            </Grid>
+
+
+        </DataTemplate>
+        <DataTemplate x:Key="ImageTemplate2">
+            <ScrollViewer>
+                <Image x:Name="image" Stretch="UniformToFill" >
+                    <Image.Source>
+                        <BitmapImage  UriSource="{Binding ImageUri}"/>
+                    </Image.Source>
+                </Image>
+            </ScrollViewer>
+
+        </DataTemplate>
+    </Page.Resources>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <FlipView x:Name="imageFlipView"
+                  Grid.Row="0" Grid.Column="0"
+                  Grid.RowSpan="2" Grid.ColumnSpan="2"
+            ItemsSource="{Binding ImageCollection}"
+            ItemTemplate="{StaticResource ImageTemplate1}"
+            DoubleTapped="Flipview_DoubleTapped">
+        </FlipView>
+        <AppBarButton Label="Back" Icon="Back" 
+                      Grid.Row="0" Grid.Column="0"
+                      Tapped="NavigationBackToMangaDetailPage"/>
+    </Grid>
+</Page>
